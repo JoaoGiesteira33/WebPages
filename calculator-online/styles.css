@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300&display=swap');
+
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.calculator{
+    display: flex;
+    flex-direction: column;
+    max-width: 340px;
+    gap: 10px;
+    border: 2px solid black;
+    padding: 5px;
+    background-color: rgb(177, 78, 78);
+}
+.output{
+    border: 1px solid black;
+    height: 150px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-direction: column;
+    font-family: 'Rajdhani';
+    background-color: rgb(93, 128, 44);
+}
+.up{
+    font-size: 15px;
+}
+.down{
+    font-size: 25px;
+}
+.input{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+button{
+    height: 80px;
+    width: 80px;
+    margin: 2px;
+    border-radius: 10%;
+    background-color: aqua;
+}
+
+.btn-point,
+.btn-operate,
+.btn-operation,
+.btn-clear,
+.btn-delete,
+.btn-empty,
+.btn-power{
+    background-color: rgb(61, 160, 169);
+}
+

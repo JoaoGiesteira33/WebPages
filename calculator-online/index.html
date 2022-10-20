@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Calculator</title>
+</head>
+<body>
+    <div class="calculator">
+        <div class="output">
+          <div class="up"></div>
+          <div class="down"></div>
+        </div>
+        <div class="input">
+            <button type="button" class="btn btn-power">&#9737</button>
+            <button type="button" class="btn btn-clear">C</button>
+            <button type="button" class="btn btn-delete">&#x232B</button>
+            <button type="button" class="btn btn-operation">&#247</button>
+
+            <button type="button" class="btn btn-number">7</button>
+            <button type="button" class="btn btn-number">8</button>
+            <button type="button" class="btn btn-number">9</button>
+            <button type="button" class="btn btn-operation">&#215</button>
+
+            <button type="button" class="btn btn-number">4</button>
+            <button type="button" class="btn btn-number">5</button>
+            <button type="button" class="btn btn-number">6</button>
+            <button type="button" class="btn btn-operation">&#8722;</button>
+
+            <button type="button" class="btn btn-number">1</button>
+            <button type="button" class="btn btn-number">2</button>    
+            <button type="button" class="btn btn-number">3</button>
+            <button type="button" class="btn btn-operation">&#43</button>
+
+            <button type="button" class="btn btn-empty"></button>
+            <button type="button" class="btn btn-number">0</button>    
+            <button type="button" class="btn btn-point">.</button>
+            <button type="button" class="btn btn-operate">&#61</button>
+        </div>
+    </div>
+    <script>
+
+        /***    Operation Functions ***/
+        function add(a,b){
+          return a+b;
+        }
+        function subtract(a,b){
+          return a-b;
+        }
+        function multiply(a,b){
+          return a*b;
+        }
+        function divide(a,b){
+          if(b === 0)return "Nice try!";
+          return a/b;
+        }
+        function operate(operator, a, b){
+          switch(operator){
+            case '+':
+              return add(a,b);
+            case '−':
+              return subtract(a,b);
+            case '×':
+              return multiply(a,b);
+            case '÷':
+              return divide(a,b);
+            default:
+              break;
+          }
+        }
+        /***    Calculator State    ***/
+        let displayValue = 0;
+        let selectingFirstNumber = true;
+        const greetMessage = "Hello there :)";
+        const speed = 50;
+        let operation;
+        let numberA;
+        let numberB;
+        let power = false;
+        const output = document.querySelector('.down');
+        const addInfo = document.querySelector('.up');
+
+        function resetCalculator(){
+          displayValue = 0;
+          selectingFirstNumber = true;
+          numberA = 0;
+          numberB = 0;
+          updateOuputValue();
+        }
+        function deleteDigit(){
+          displayValue = Math.floor(displayValue / 10);
+          updateOuputValue();
+        }
+        function handleNumberClick(e){
+            const button = e.currentTarget;
+            displayValue = displayValue*10 + parseInt(button.textContent);
+            updateOuputValue();
+        }
+        function handleOperationClick(e){
+            const button = e.currentTarget;
+            if(selectingFirstNumber){
+                //Save current number
+                numberA = displayValue;
+                //Update calculator state for new number
+                displayValue = 0;
+                selectingFirstNumber = false;
+                //Save selected operation
+                operation = button.textContent;
+            }else{
+                numberB = displayValue;
+                numberA = operate(operation,numberA,numberB);
+                numberB = 0;
+                displayValue = 0;
+                operation = button.textContent;
+            }
+            updateOuputValue();
+        }
+        function handleOperation(){
+            if(selectingFirstNumber === true) return;
+            //Save new number
+            numberB = displayValue;
+            //Calculate result
+            const result = operate(operation,numberA,numberB);
+            //Update calculator state
+            displayValue = result;
+            output.textContent = displayValue;
+            addInfo.textContent = numberA + ' ' + operation + ' ' + numberB;
+
+            selectingFirstNumber = true;
+            numberA = 0;
+            numberB = 0;
+        }
+        function updateOuputValue(){
+            if(power === false) {
+              output.textContent = "";
+              addInfo.textContent = "";
+            }else{
+              output.textContent = displayValue;
+              if(selectingFirstNumber === false){
+                addInfo.textContent = numberA + ' ' + operation;
+              }else{
+                addInfo.textContent = '';
+              }
+            }
+        }
+
+        /***    Button Events   ***/
+        const buttonsWithNumbers = document.querySelectorAll('.btn-number');
+        const buttonsWithOperations = document.querySelectorAll('.btn-operation');
+        const buttonEquals = document.querySelector('.btn-operate');
+        const buttonClear = document.querySelector('.btn-clear');
+        const buttonDelete = document.querySelector('.btn-delete');
+        const buttonPower = document.querySelector('.btn-power');
+
+        //Give behavior to all numbered buttons
+        function turnCalculatorOn(){
+          resetCalculator();
+          updateOuputValue();
+        }
+        
+        buttonPower.addEventListener('click',() =>{
+          if(power === false){
+            power = true;
+            turnCalculatorOn();
+          } else if(power === true){
+            power = false;
+            updateOuputValue();
+          }
+        });
+        buttonsWithNumbers.forEach(btn =>{
+          btn.addEventListener('click',e => handleNumberClick(e));
+        });
+        buttonsWithOperations.forEach(btn => {
+          btn.addEventListener('click',e => handleOperationClick(e));
+        });
+        buttonEquals.addEventListener('click', handleOperation);
+        buttonClear.addEventListener('click', resetCalculator);
+        buttonDelete.addEventListener('click',deleteDigit);
+
+    </script>
+</body>
+</html>

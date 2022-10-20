@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="grid-settings">
+        <h1>Etch a Sketch</h1>
+        <div class="grid-size">
+            <label for="price">Choose grid size:</label>
+            <input type="range" name="grid-size" id="grid-size" min="4" max="86" step="1" value="4">
+            <output class="size-output" for="grid-size"></output>
+        </div>
+        <div class="color-picker">
+            <label for="colorpicker">Color color:</label>
+            <input type="color" id="colorpicker" value="#000000">
+        </div>
+    </div>
+    <div class="draw-section">
+        <div class="grid">
+        </div>
+    </div>
+    <script>
+        let htmlStyles = window.getComputedStyle(document.querySelector("html"));
+        let colNum = parseInt(htmlStyles.getPropertyValue("--colNum"));
+        let isButtonDown = false;
+        let selectedColor = '#000000';
+
+        window.addEventListener('mouseup', () => {
+            isButtonDown = false;
+        })
+
+        const grid = document.querySelector('.grid');
+        const size = document.querySelector('#grid-size');
+        const output = document.querySelector('.size-output');
+        const color = document.querySelector('#colorpicker');
+
+        document.documentElement.style.setProperty("--colNum", 4);
+        createGrid(4)
+
+        //Event for size update
+        output.textContent = size.value;
+        size.addEventListener('input', () => {
+            output.textContent = size.value;
+            createGrid(size.value);
+            document.documentElement.style.setProperty("--colNum", size.value);
+        });
+
+        //Event for color update
+        color.addEventListener('input', () => {
+            selectedColor = color.value;
+        });
+
+        function createGrid(gridSize){
+            grid.textContent = ''
+            const numberOfSquares = gridSize * gridSize;
+            
+            //Create grid of divs and add necessary events
+            for(let i = 0 ; i < numberOfSquares; i++){
+                const square = document.createElement('div');
+
+                square.addEventListener('mouseenter',function (e){
+                    e.target.classList.toggle('hover');
+                    if(isButtonDown) e.target.style['background-color'] = selectedColor
+                });
+                square.addEventListener('mouseleave',function (e){
+                    e.target.classList.toggle('hover')
+                });
+                square.addEventListener('mousedown',function (e){
+                    e.target.style['background-color'] = selectedColor
+                    isButtonDown = true;
+                })
+
+                square.classList.add("square");
+                grid.append(square);
+            }
+        }   
+
+    </script>
+</body>
+</html>
