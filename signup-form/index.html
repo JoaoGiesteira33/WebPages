@@ -14,6 +14,49 @@
             ODIN
         </div>
     </div>
-    <div class="right-section"></div>
+    <div class="right-section">
+        <div class="up">
+            <p>
+                This is not a real online service!
+            </p>
+        </div>
+        <div class="mid">
+            <h1>Let's do this!</h1>
+            <form id="my-form" onsubmit="return validate(this);">
+                <div class="left-col">
+                    <div id="first_name">
+                        <label for="first_name">FIRST NAME</label>
+                        <input type="text" id="first_name" name="first_name" minlength="1" maxlength="25" required>
+                    </div>
+                    <div id="email">
+                        <label for="mail">EMAIL</label>
+                        <input type="email" id="mail" name="user_email" required>
+                    </div>
+                    <div id="password">
+                        <label for="user_password">PASSWORD</label>
+                        <input type="password" id="user_password" name="user_password" required>
+                    </div>
+                </div>
+                <div class="right-col">
+                    <div id="last_name">
+                        <label for="last_name">LAST NAME</label>
+                        <input type="text" id="last_name" name="last_name" minlength="1" maxlength="25" required>
+                    </div>
+                    <div id="phone_number">
+                        <label for="phone_number">PHONE NUMBER</label>
+                        <input type="tel" id="phone_number" name="phone_number" pattern="(\d*)" title="Please enter a valid phone number" required>
+                    </div>
+                    <div id="confirm_password">
+                        <label for="confirm_user_password">PASSWORD</label>
+                        <input type="password" id="confirm_user_password" name="confirm_user_password" required>
+                    </div>
+                </div>     
+            </form>
+        </div>
+        <div class="low">
+            <button  type="submit" form="my-form">Create Account</button>
+            <p>Already have an account? <a href="">Log in</a></p>
+        </div>
+    </div>
 </body>
 </html>
